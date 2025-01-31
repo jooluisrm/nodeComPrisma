@@ -61,7 +61,7 @@ export const desativarUser = async (userId: number) => {
     return updatedUser
 }
 
-export const mudarName = async (userId: number, newName: string) => {
+export const alterarName = async (userId: number, newName: string) => {
     const updatedNameUser = await prisma.user.update({
         where: {
             id: userId
@@ -71,4 +71,21 @@ export const mudarName = async (userId: number, newName: string) => {
         }
     });
     return updatedNameUser;
+}
+
+export const alterarEmail = async (userId: number, newEmail: string) => {
+    try {
+        const updatedEmailUser = await prisma.user.update({
+            where: {
+                id: userId
+            },
+            data: {
+                email: newEmail
+            }
+        });
+        return updatedEmailUser;
+    } catch (error) {
+        return false;
+    }
+    
 }

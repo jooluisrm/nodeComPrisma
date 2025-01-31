@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { prisma } from '../libs/prisma';
-import { ativarUser, createUser, desativarUser, getAllUsers, getUser, mudarName } from '../services/user';
+import { alterarEmail, alterarName, ativarUser, createUser, desativarUser, getAllUsers, getUser } from '../services/user';
 
 export const mainRouter = Router();
 
@@ -45,7 +45,6 @@ mainRouter.post('/user', async (req, res) => {  // cadastra 1 usuario
 });
 
 
-
 mainRouter.put('/user/ativar/:id', async (req, res) => { // ativa o status usuario
     const userId = req.params.id;
 
@@ -60,10 +59,21 @@ mainRouter.put('/user/desativar/:id', async (req, res) => { // desativa o status
     res.json({ result });
 });
 
-mainRouter.put('/user/alterarNome/:id', async (req, res) => {
+mainRouter.put('/user/alterarNome/:id', async (req, res) => { // alterar nome
     const userId = req.params.id;
     const { newName } = req.body;
 
-    const result = await mudarName(Number(userId), newName);
+    const result = await alterarName(Number(userId), newName);
     res.json({ result });
 });
+
+mainRouter.put('/user/alterarEmail/:id', async (req, res) => { // alterar email
+    const userId = req.params.id;
+    const {newEmail} = req.body;
+
+    const result = await alterarEmail(Number(userId), newEmail);
+    if(!result) {
+        res.status(501).json({error: "Email já cadastrado!"});
+    }
+    res.json({result});
+})
