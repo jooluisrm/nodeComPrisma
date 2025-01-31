@@ -35,6 +35,16 @@ export const getUser = async (userId: number) => {
     return user;
 }
 
+export const buscarUser = async (name: string) => {
+    const busca = await prisma.user.findMany({
+        where: {
+            name: {
+                startsWith: name
+            }
+        }
+    })
+    return busca;
+}
 
 export const ativarUser = async (userId: number) => {
     const updatedUser = await prisma.user.update({
@@ -89,3 +99,4 @@ export const alterarEmail = async (userId: number, newEmail: string) => {
     }
     
 }
+
