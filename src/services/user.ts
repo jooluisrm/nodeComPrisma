@@ -60,3 +60,15 @@ export const desativarUser = async (userId: number) => {
     });
     return updatedUser
 }
+
+export const mudarName = async (userId: number, newName: string) => {
+    const updatedNameUser = await prisma.user.update({
+        where: {
+            id: userId
+        },
+        data: {
+            name: newName
+        }
+    });
+    return updatedNameUser;
+}

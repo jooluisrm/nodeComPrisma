@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { prisma } from '../libs/prisma';
-import { ativarUser, createUser, desativarUser, getAllUsers, getUser } from '../services/user';
+import { ativarUser, createUser, desativarUser, getAllUsers, getUser, mudarName } from '../services/user';
 
 export const mainRouter = Router();
 
@@ -58,4 +58,12 @@ mainRouter.put('/user/desativar/:id', async (req, res) => { // desativa o status
 
     const result = await desativarUser(Number(userId));
     res.json({ result });
-})
+});
+
+mainRouter.put('/user/alterarNome/:id', async (req, res) => {
+    const userId = req.params.id;
+    const { newName } = req.body;
+
+    const result = await mudarName(Number(userId), newName);
+    res.json({ result });
+});
